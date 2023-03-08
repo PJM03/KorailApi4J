@@ -12,5 +12,5 @@ public class Train {
     @SerializedName("vehiclekndnm")
     private final String name;
     @SerializedName("vehiclekndid")
-    private final int id;
+    private final String id;
 }

@@ -35,8 +35,30 @@ public class KorailApi implements AutoCloseable{
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
+                    System.out.println(call.request().url());
                     JsonObject json = gson.fromJson(response.body(), JsonObject.class);
                     List<CityCode> list = getItemList(json, CityCode.class);
+                    result.setData(list);
+                } else throw new RuntimeException("Request failed. :: " + response.code());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                throw new RuntimeException("Request failed. :: " + t);
+            }
+        });
+        return result;
+    }
+
+    public AsyncResult<List<Train>> getTrains() {
+        if (shutdown) throw new IllegalStateException("this api object is shutdown.");
+        AsyncResult<List<Train>> result = new AsyncResult<>();
+        service.getTrains(apiKey).enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    JsonObject json = gson.fromJson(response.body(), JsonObject.class);
+                    List<Train> list = getItemList(json, Train.class);
                     result.setData(list);
                 } else throw new RuntimeException("Request failed. :: " + response.code());
             }
@@ -73,24 +95,28 @@ public class KorailApi implements AutoCloseable{
         return result;
     }
 
-    public AsyncResult<List<Train>> getTrains() {
+    public AsyncResult<PageResult<List<TrainSchedule>>> getTrainSchedules(Station departure, Station arrival, String date, Train train, int page) {
         if (shutdown) throw new IllegalStateException("this api object is shutdown.");
-        AsyncResult<List<Train>> result = new AsyncResult<>();
-        service.getTrains(apiKey).enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    JsonObject json = gson.fromJson(response.body(), JsonObject.class);
-                    List<Train> list = getItemList(json, Train.class);
-                    result.setData(list);
-                } else throw new RuntimeException("Request failed. :: " + response.code());
-            }
+        if (page < 1) throw new IllegalArgumentException("page is more than 1.");
+        AsyncResult<PageResult<List<TrainSchedule>>> result = new AsyncResult<>();
+        service.getTrainSchedules(apiKey, page, departure.getCode(), arrival.getCode(), date, train.getId())
+                .enqueue(new Callback<>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.isSuccessful()) {
+                            System.out.println(call.request().url());
+                            JsonObject json = gson.fromJson(response.body(), JsonObject.class);
+                            List<TrainSchedule> list = getItemList(json, TrainSchedule.class);
+                            PageResult<List<TrainSchedule>> pageResult = getPageResult(json, list);
+                            result.setData(pageResult);
+                        } else throw new RuntimeException("Request failed. :: " + response.code());
+                    }
 
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                throw new RuntimeException("Request failed. :: " + t);
-            }
-        });
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        throw new RuntimeException("Request failed. :: " + t);
+                    }
+                });
         return result;
     }
 

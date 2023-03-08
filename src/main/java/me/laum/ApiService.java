@@ -20,5 +20,5 @@ public interface ApiService {
                              @Query("depPlaceId") String departures,
                              @Query("arrPlaceId") String arrivals,
                              @Query("depPlandTime") String date,
-                             @Query("trainGradeCode") int trainCode);
+                             @Query("trainGradeCode") String trainCode);
 }
