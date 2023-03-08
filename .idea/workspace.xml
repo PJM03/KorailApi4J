@@ -4,28 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="51b5bb40-8baf-4c4d-bd59-c13f61be90de" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/laum/ApiService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/laum/KorailApi.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/laum/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/laum/data/AsyncResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/laum/data/CityCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/laum/data/PageResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/laum/data/StationData.java" afterDir="false" />
-    </list>
+    <list default="true" id="51b5bb40-8baf-4c4d-bd59-c13f61be90de" name="Changes" comment="프로젝트 생성, 시/도별 기차역 목록조회, 도시코드 목 조회 기능 완성" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -100,12 +79,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678012611336</updated>
-      <workItem from="1678012612891" duration="9009000" />
+      <workItem from="1678012612891" duration="9146000" />
     </task>
+    <task id="LOCAL-00001" summary="프로젝트 생성, 시/도별 기차역 목록조회, 도시코드 목 조회 기능 완성">
+      <created>1678029652684</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1678029652684</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="프로젝트 생성, 시/도별 기차역 목록조회, 도시코드 목 조회 기능 완성" />
+    <option name="LAST_COMMIT_MESSAGE" value="프로젝트 생성, 시/도별 기차역 목록조회, 도시코드 목 조회 기능 완성" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

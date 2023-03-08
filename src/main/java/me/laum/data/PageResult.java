@@ -10,4 +10,8 @@ public class PageResult<T> {
     private final int totalCount;
 
     private final T data;
+
+    public boolean hasNext() {
+        return page < totalCount / 10;
+    }
 }

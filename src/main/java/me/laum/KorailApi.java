@@ -3,10 +3,7 @@ package me.laum;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
-import me.laum.data.AsyncResult;
-import me.laum.data.CityCode;
-import me.laum.data.PageResult;
-import me.laum.data.StationData;
+import me.laum.data.*;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class KorailApi {
+public class KorailApi implements AutoCloseable{
     private static final String SERVICE_URL = "http://apis.data.go.kr/1613000/TrainInfoService/";
     private static final Gson gson = new Gson();
 
@@ -52,18 +49,18 @@ public class KorailApi {
         return result;
     }
 
-    public AsyncResult<PageResult<List<StationData>>> getStations(CityCode cityCode, int page) {
+    public AsyncResult<PageResult<List<Station>>> getStations(CityCode cityCode, int page) {
         if (shutdown) throw new IllegalStateException("this api object is shutdown.");
-        AsyncResult<PageResult<List<StationData>>> result = new AsyncResult<>();
-        service.getStations(apiKey, page, 10, cityCode.getCode())
+        if (page < 1) throw new IllegalArgumentException("page is more than 1.");
+        AsyncResult<PageResult<List<Station>>> result = new AsyncResult<>();
+        service.getStations(apiKey, page, cityCode.getCode())
                 .enqueue(new Callback<>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-                        System.out.println(call.request().url());
                         if (response.isSuccessful()) {
                             JsonObject json = gson.fromJson(response.body(), JsonObject.class);
-                            List<StationData> list = getItemList(json, StationData.class);
-                            PageResult<List<StationData>> pageResult = getPageResult(json, list);
+                            List<Station> list = getItemList(json, Station.class);
+                            PageResult<List<Station>> pageResult = getPageResult(json, list);
                             result.setData(pageResult);
                         } else throw new RuntimeException("Request failed. :: " + response.code());
                     }
@@ -73,6 +70,27 @@ public class KorailApi {
                         throw new RuntimeException("Request failed. :: " + t);
                     }
                 });
+        return result;
+    }
+
+    public AsyncResult<List<Train>> getTrains() {
+        if (shutdown) throw new IllegalStateException("this api object is shutdown.");
+        AsyncResult<List<Train>> result = new AsyncResult<>();
+        service.getTrains(apiKey).enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    JsonObject json = gson.fromJson(response.body(), JsonObject.class);
+                    List<Train> list = getItemList(json, Train.class);
+                    result.setData(list);
+                } else throw new RuntimeException("Request failed. :: " + response.code());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                throw new RuntimeException("Request failed. :: " + t);
+            }
+        });
         return result;
     }
 
@@ -91,7 +109,8 @@ public class KorailApi {
                 .collect(Collectors.toList());
     }
 
-    public void shutdown() {
+    @Override
+    public void close() {
         client.dispatcher().executorService().shutdown();
         client.connectionPool().evictAll();
         shutdown = true;
