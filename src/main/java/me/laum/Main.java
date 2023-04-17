@@ -21,7 +21,7 @@ public class Main {
             api.getTrains().waitData().forEach(train -> TRAIN_MAP.put(train.getName(), train));
             System.out.println(TRAIN_MAP);
             System.out.println(TRAIN_MAP.get("KTX"));
-            api.getTrainSchedules(STATION_MAP.get("서울"), STATION_MAP.get("대전"), "20230308", TRAIN_MAP.get("KTX"), 1)
+            api.getTrainSchedules(STATION_MAP.get("서울"), STATION_MAP.get("대전"), "20230418", TRAIN_MAP.get("KTX"), 3)
                     .waitData().getData()
                     .forEach(System.out::println);
         }
